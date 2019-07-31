@@ -2,11 +2,18 @@
 
 require "MDelally/ArrayMath.php";
 
-$array1 = [5,15,1,3,8,7,15];
-$array2 = [1,2,4,8,16,32,64,128];
-$array3 = [2,4,6,8,10,12,14,16,18];
+$sets = [
+    [5,15,1,3,8,7,15],
+    [1,2,4,8,16,32,64,128],
+    [2,4,6,8,10,12,14,16,18]
+];
+
 $sum = 30;
+$results = [];
 
-$subsetSums = MDelally\ArrayMath::subsetSums($array1, $sum);
+foreach ($sets as $set) {
+    $subsetSums = MDelally\ArrayMath::subsetSums($set, $sum);
+    array_push($results, $subsetSums);
+}
 
-var_dump($subsetSums);
+var_dump($results);

@@ -1,22 +1,25 @@
 <?php
 
+namespace MDelally;
+
 class ArrayMath {
     /**
-     * Given an array of values, print all combinations of values that
-     * total given target, ignoring duplicates.
+     * Given an array of values, find all combinations that total given sum.
      *
      * @param array $nums
      * @param $target
      * @param array $partial
+     * @param array $results
      */
-    public static function printSubsetSums(Array $nums, $target, $partial = [])
+    protected static function findSubsetSums(Array $nums, $target, $partial = [], &$results = [])
     {
         $nums = array_unique($nums);
         $sum = array_sum($partial);
 
         if ($sum == $target) {
             asort($partial);
-            print_r($partial);
+            $results[] = $partial;
+            // print_r($partial);
         }
 
         if ($sum >= $target)
@@ -33,8 +36,24 @@ class ArrayMath {
             $newPartial = $partial;
             array_push($newPartial, $n);
 
-            self::subsetSums($remaining, $target, $newPartial);
+            self::findSubsetSums($remaining, $target, $newPartial, $results);
         }
+    }
+
+    /**
+     * Given an array of values and a given sum, return an array containing all
+     * combinations of values totalling given sum.
+     *
+     * @param array $nums
+     * @param $sum
+     * @return array
+     */
+    public static function subsetSums(Array $nums, $sum) {
+        $results = [];
+
+        self::findSubsetSums($nums, $sum, [], $results);
+
+        return $results;
     }
 }
 
@@ -43,5 +62,6 @@ $array2 = [1,2,4,8,16,32,64,128];
 $array3 = [2,4,6,8,10,12,14,16,18];
 $sum = 30;
 
-ArrayMath::printSubsetSums($array1, $sum);
-//echo "<br><br>";
+$subsetSums = ArrayMath::subsetSums($array1, $sum);
+
+var_dump($subsetSums);
